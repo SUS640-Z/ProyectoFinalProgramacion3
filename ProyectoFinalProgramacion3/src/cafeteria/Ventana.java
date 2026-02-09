@@ -12,7 +12,7 @@ public class Ventana extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Pagina Web de Novato Sensacion");
 		//setLocation(100,100);
-		setBounds(200,100,700,600); // cordenadas y tamaño
+		setBounds(200,100,1200,600); // cordenadas y tamaño
 		setResizable(false);
 		setLocationRelativeTo(null);// Colocar la ventana el centro
 		Toolkit tk = Toolkit.getDefaultToolkit();
