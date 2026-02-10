@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import views.LoginView;
+
 public class Ventana extends JFrame{
 	public Ventana() {
 		//setSize(500,500);
@@ -18,8 +20,10 @@ public class Ventana extends JFrame{
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image icono = tk.getImage("src/img/coffe.png");
 		setIconImage(icono);
-		Panel panelito = new Panel();
-		add(panelito);
+		//Panel panelito = new Panel();
+		//add(panelito);
+		LoginView login = new LoginView();
+		add(login);
 		setVisible(true);
 	}
 
