@@ -12,9 +12,9 @@ public class Ventana extends JFrame{
 	public Ventana() {
 		//setSize(500,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Pagina Web de Novato Sensacion");
+		setTitle("Green Coffe");
 		//setLocation(100,100);
-		setBounds(200,100,1200,600); // cordenadas y tamaño
+		setBounds(200,100,500,500); // cordenadas y tamaño
 		setResizable(false);
 		setLocationRelativeTo(null);// Colocar la ventana el centro
 		Toolkit tk = Toolkit.getDefaultToolkit();
@@ -24,6 +24,7 @@ public class Ventana extends JFrame{
 		//add(panelito);
 		LoginView login = new LoginView();
 		add(login);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 	}
 
