@@ -1,0 +1,14 @@
+# Eclipse
+.metadata/
+.settings/
+
+# Compilados
+*.class
+
+# Carpetas de compilación
+/bin/
+/build/
+/out/
+
+# Logs
+*.log
