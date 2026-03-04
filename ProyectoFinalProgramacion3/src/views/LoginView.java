@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,7 +31,28 @@ import components.BordePanel;
 import components.LblAviso;
 import components.LblSubtitulo;
 
-public class LoginView extends BordePanel{
+public class LoginView extends JFrame{
+	
+	public LoginView() {
+		//setSize(600,600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("SaturnBucks");
+		//setLocation(100,100);
+		setBounds(200,100,640,640); // cordenadas y tamaño
+		setResizable(false);
+		setLocationRelativeTo(null);// Colocar la ventana el centro
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image icono = tk.getImage("src/img/SATURN_BUCKS_3.png");
+		setIconImage(icono);
+		//Panel panelito = new Panel();
+		//add(panelito);
+		BordePanel login = new BordePanel("LOG IN",Color.white);
+		login.setBackground(new Color(15, 19, 9));
+		generarComponentes();
+		add(login);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setVisible(true);
+	}
 	
 	JTextField txtUsuario;
 	JPasswordField txtContrasena;
@@ -44,11 +67,6 @@ public class LoginView extends BordePanel{
 	
 	JLabel lblCafeImg;
 	
-	public LoginView(){
-		super("LOG IN",Color.white);
-		setBackground(new Color(15, 19, 9));
-		generarComponentes();
-	}
 	
 	private ImageIcon cargarIcono(String ruta, int ancho, int largo) {
 
@@ -64,7 +82,7 @@ public class LoginView extends BordePanel{
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+		paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		
 		Image fondo = null;
@@ -84,13 +102,30 @@ public class LoginView extends BordePanel{
 		btnConfimar.setFont(new Font("Times New Roman", Font.PLAIN, 23));
 		btnConfimar.setBackground(new Color(48, 60, 26));
 		btnConfimar.setForeground(Color.WHITE);
-		btnConfimar.setBounds(143,317, 316, 40);
+		btnConfimar.setBounds(143,300, 316, 40);
 		btnConfimar.setBorder(new LineBorder(Color.GRAY, 3, true));	
 		add(btnConfimar);
 		
 		btnConfimar.addActionListener( e -> validarForm());
+		
+		JButton btnConfimar2 = new JButton("Crea una cuenta");
+		btnConfimar2.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		btnConfimar2.setBackground(new Color(48, 60, 26));
+		btnConfimar2.setForeground(Color.WHITE);
+		btnConfimar2.setBounds(220,350, 160, 30);
+		btnConfimar2.setBorder(new LineBorder(Color.GRAY, 3, true));	
+		add(btnConfimar2);
+		
+		
+		btnConfimar2.addActionListener( e -> reenviarDirrecion());
 	}
 	
+	private void reenviarDirrecion() {
+		new Dirreccion();
+		this.dispose();
+		
+	}
+
 	private void generarAvisos() {
 		lblErrorIngresarDatos = new LblAviso("");
 		lblErrorIngresarDatos.setBounds(143, 357, 316, 57);
@@ -157,15 +192,15 @@ public class LoginView extends BordePanel{
 		boolean valido = true;
 		
 		if(!verificarUsuario()) {
-			valido = true;
+			valido = false;
 		}
 		
 		if(!verificarPassword()) {
-			valido = true;
+			valido = false;
 		}
 		
-		if (valido) {
-			JOptionPane.showMessageDialog(this, "Exito");
+		if(valido) {
+			//new Dirreccion();
 		}
 	}
 	

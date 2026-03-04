@@ -47,9 +47,11 @@ public class Dirreccion extends JFrame {
     LblAlertForm lblObs6;
     JComboBox cboxPaises;
     JTextArea txtDetalles;
+    BtnDirecion btnConfirmar2;
     
     public Dirreccion() {
     		setTitle("Saturnbucks.direccion");
+    		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setBounds(100, 100, 450, 650); //Juan pablo tamaño
         setBounds(100, 100, 450, 720);//Ivan tamaño 
@@ -108,7 +110,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlPaises = new JPanel(new BorderLayout());
         pnlPaises.setOpaque(false);
         pnlPaises.add(cboxPaises, BorderLayout.CENTER);
-        lblObs1 = new LblAlertForm("Selecciona un pais");
+        lblObs1 = new LblAlertForm(" ");
         pnlPaises.add(lblObs1, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -124,7 +126,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlNombre = new JPanel(new BorderLayout());
         pnlNombre.setOpaque(false);
         pnlNombre.add(txtNombre, BorderLayout.CENTER);
-        lblObs2 = new LblAlertForm("El nombre es obligatorio");
+        lblObs2 = new LblAlertForm(" ");
         pnlNombre.add(lblObs2, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -140,7 +142,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlCalle = new JPanel(new BorderLayout());
         pnlCalle.setOpaque(false);
         pnlCalle.add(txtCalle, BorderLayout.CENTER);
-        lblObs3 = new LblAlertForm("*Este campo es obligatorio");
+        lblObs3 = new LblAlertForm(" ");
         pnlCalle.add(lblObs3, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -156,7 +158,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlCP = new JPanel(new BorderLayout());
         pnlCP.setOpaque(false);
         pnlCP.add(txtCodigoPostal, BorderLayout.CENTER);
-        lblObs4 = new LblAlertForm("El codigo postal es obligatorio");
+        lblObs4 = new LblAlertForm(" ");
         pnlCP.add(lblObs4, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 0, 5); 
@@ -178,7 +180,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlTel = new JPanel(new BorderLayout());
         pnlTel.setOpaque(false);
         pnlTel.add(txtNumeroTelefono, BorderLayout.CENTER);
-        lblObs5 = new LblAlertForm("El telefono es obligatorio");
+        lblObs5 = new LblAlertForm(" ");
         pnlTel.add(lblObs5, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -194,7 +196,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlDetalles = new JPanel(new BorderLayout());
         pnlDetalles.setOpaque(false);
         pnlDetalles.add(scroll, BorderLayout.CENTER);
-        lblObs6 = new LblAlertForm("Campo obligatorio"); 
+        lblObs6 = new LblAlertForm(" "); 
         pnlDetalles.add(lblObs6, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 0, 5); 
@@ -220,6 +222,22 @@ public class Dirreccion extends JFrame {
         panelFormulario.add(btnConfirmar, c);
 		
         btnConfirmar.addActionListener( e -> validarForm());
+        
+        btnConfirmar2 = new BtnDirecion("Regresar", 15, 3);
+        c.gridy = 16;
+        c.insets = new Insets(1, 1, 1, 1);
+        panelFormulario.add(btnConfirmar2, c);
+        btnConfirmar2.addActionListener(e -> {
+			
+			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán todos los datos");
+			
+			if(option == JOptionPane.YES_OPTION) {
+				new LoginView();
+				dispose();
+			}
+			
+		});
+
 	}
     
 	private void validarForm() {
@@ -253,13 +271,20 @@ public class Dirreccion extends JFrame {
 		
 		if (valido) {
 			JOptionPane.showMessageDialog(this, "Exito");
+			reenviarLoginView();
 		}
 		
 	}
 	
+	
+	private void reenviarLoginView() {
+		new LoginView();
+		this.dispose();
+	}
+
 	private boolean verificarDetails() {
 		if(txtDetalles.getText().trim().equals("")) {
-			lblObs6.setText("Campo obligatorio");
+			lblObs6.setText(" ");
 			lblObs6.setFont(new Font("Arial", Font.BOLD, 10));
 			return false;
 		}
@@ -311,11 +336,11 @@ public class Dirreccion extends JFrame {
 		return true;
 	}
 	private void resetearAvisos() {
-	    lblObs1.setText("");
-	    lblObs2.setText("");
-	    lblObs3.setText("");
-	    lblObs4.setText("");
-	    lblObs5.setText("");
-	    lblObs6.setText("");
+	    lblObs1.setText(" ");
+	    lblObs2.setText(" ");
+	    lblObs3.setText(" ");
+	    lblObs4.setText(" ");
+	    lblObs5.setText(" ");
+	    lblObs6.setText(" ");
 	}
 }
