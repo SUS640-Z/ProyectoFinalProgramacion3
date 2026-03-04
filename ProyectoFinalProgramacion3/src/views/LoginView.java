@@ -25,10 +25,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
 
+import components.BordePanel;
 import components.LblAviso;
 import components.LblSubtitulo;
 
-public class LoginView extends JPanel{
+public class LoginView extends BordePanel{
 	
 	JTextField txtUsuario;
 	JPasswordField txtContrasena;
@@ -44,22 +45,8 @@ public class LoginView extends JPanel{
 	JLabel lblCafeImg;
 	
 	public LoginView(){
-		
-	    setLayout(new GridBagLayout()); 
-
-	    Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-	    Border panelTitledBorder = BorderFactory.createTitledBorder(
-	            BorderFactory.createLineBorder(Color.WHITE, 2),
-	            "LOG IN", 
-	            TitledBorder.CENTER,
-	            TitledBorder.TOP,
-	            new Font("Arial", Font.BOLD, 14),
-	            Color.WHITE);
-
-	    setBorder(BorderFactory.createCompoundBorder(emptyBorder, panelTitledBorder));
-		setLayout(null);
+		super("LOG IN",Color.white);
 		setBackground(new Color(15, 19, 9));
-
 		generarComponentes();
 	}
 	
@@ -101,22 +88,7 @@ public class LoginView extends JPanel{
 		btnConfimar.setBorder(new LineBorder(Color.GRAY, 3, true));	
 		add(btnConfimar);
 		
-		btnConfimar.addActionListener( e -> {
-			if(txtUsuario.getText().trim().equals("")) {
-				lblUsuarioRequerido.setText("Usuario Requerido");
-				lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-				
-			}else{
-				lblUsuarioRequerido.setText("");
-			}
-			
-			if(new String(txtContrasena.getPassword()).trim().equals("")) {
-				lblContraseaRequerida.setText("Contraseña Requerida");
-				lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-			}else{
-				lblContraseaRequerida.setText("");
-			}
-		});
+		btnConfimar.addActionListener( e -> validarForm());
 	}
 	
 	private void generarAvisos() {
@@ -135,30 +107,32 @@ public class LoginView extends JPanel{
 	
 	private void generarTitulos() {
 		lblIniciarSesion = new JLabel("Iniciar Sesion");
-		lblIniciarSesion.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		lblIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblIniciarSesion.setForeground(new Color(255, 255, 255));
-		lblIniciarSesion.setBounds(169, 41, 254, 62);
+		lblIniciarSesion.setBounds(169, 41, 350, 62);
 		lblIniciarSesion.setForeground(Color.WHITE);
 		lblIniciarSesion.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblIniciarSesion);
 		
 		lblUsuario = new LblSubtitulo("USUARIO: ");
-		lblUsuario.setBounds(133, 131, 120, 25);
+		lblUsuario.setBounds(133, 131, 220, 25);
 		lblUsuario.setForeground(Color.WHITE);
 		add(lblUsuario);
 		
 		lblContasena = new LblSubtitulo("CONTRASEÑA:");
-		lblContasena.setBounds(133, 220, 140, 25);
+		lblContasena.setBounds(133, 220, 240, 25);
 		lblContasena.setForeground(Color.WHITE);
 		add(lblContasena);
 	}
 	
 	private void generarCamposDeTexto() {
 		txtUsuario = new JTextField();
+		txtUsuario.putClientProperty("JTextField.placeholderText", "Ingresa tu nombre de usuario");
 		txtUsuario.setBounds(143, 155, 316, 25);
 		add(txtUsuario);
 
 		txtContrasena = new JPasswordField();
+		txtContrasena.putClientProperty("JTextField.placeholderText", "Ingresa tu contrasena");
 		txtContrasena.setBounds(143, 246, 316, 25);
 		add(txtContrasena);
 	}
@@ -175,6 +149,47 @@ public class LoginView extends JPanel{
 		generarBotones();
 		generarAvisos();
 		generarImagen();
+	}
+	
+	private void validarForm() {
+		resetearAvisos();
+		
+		boolean valido = true;
+		
+		if(!verificarUsuario()) {
+			valido = true;
+		}
+		
+		if(!verificarPassword()) {
+			valido = true;
+		}
+		
+		if (valido) {
+			JOptionPane.showMessageDialog(this, "Exito");
+		}
+	}
+	
+	private void resetearAvisos() {
+		lblUsuarioRequerido.setText("");
+		lblContraseaRequerida.setText("");
+	}
+	
+	private boolean verificarUsuario() {
+		if(txtUsuario.getText().trim().equals("")) {
+			lblUsuarioRequerido.setText("Usuario Requerido");
+			lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean verificarPassword() {
+		if(new String(txtContrasena.getPassword()).trim().equals("")) {
+			lblContraseaRequerida.setText("Contraseña Requerida");
+			lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+			return false;
+		}
+		return true;
 	}
 	
 	

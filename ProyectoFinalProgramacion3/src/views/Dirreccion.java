@@ -1,5 +1,4 @@
 package views;
-
 import java.awt.BorderLayout; // Importación añadida para mantener el diseño intacto
 import java.awt.Color;
 import java.awt.Font;
@@ -10,16 +9,21 @@ import java.awt.Image;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
+
+import components.BordePanel;
 import components.BtnDirecion;
+import components.LblAlertForm;
 import components.LblAviso;
 import components.LblSubtituloDirreccion;
 import javax.swing.border.LineBorder;
 import java.awt.Toolkit;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -27,22 +31,34 @@ import javax.swing.JTextField;
 
 public class Dirreccion extends JFrame {
 
-    private JPanel contentPane;
+	private BordePanel contentPane;
     private JTextField txtNombre;
     private JTextField txtCalle;
     private JTextField txtCodigoPostal;
     private JTextField txtNumeroTelefono;
-
+    BtnDirecion btnConfirmar; 
+    GridBagConstraints c;
+    JPanel panelFormulario;
+    LblAlertForm lblObs1;
+    LblAlertForm lblObs2;
+    LblAlertForm lblObs3;
+    LblAlertForm lblObs4;
+    LblAlertForm lblObs5;
+    LblAlertForm lblObs6;
+    JComboBox cboxPaises;
+    JTextArea txtDetalles;
+    
     public Dirreccion() {
-        setTitle("Saturnbucks.direccion");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 650);
+    		setTitle("Saturnbucks.direccion");
+    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setBounds(100, 100, 450, 650); //Juan pablo tamaño
+        setBounds(100, 100, 450, 720);//Ivan tamaño 
         setResizable(false);
         setLocationRelativeTo(null);
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image icono = tk.getImage("src/img/SATURN_BUCKS_51.png");
         setIconImage(icono);
-        contentPane = new JPanel();
+        contentPane = new BordePanel("DATOS DE ENVIO",Color.black);
         contentPane.setBackground(new Color(210, 180, 140));
 
         Border emptyBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
@@ -60,7 +76,7 @@ public class Dirreccion extends JFrame {
         GridBagLayout gbl_contentPane = new GridBagLayout();
         contentPane.setLayout(gbl_contentPane);
 
-        JPanel panelFormulario = new JPanel();
+        panelFormulario = new JPanel();
         panelFormulario.setOpaque(false);
         GridBagConstraints gbc_panel = new GridBagConstraints();
         gbc_panel.fill = GridBagConstraints.BOTH;
@@ -71,7 +87,7 @@ public class Dirreccion extends JFrame {
         GridBagLayout gbl_form = new GridBagLayout();
         panelFormulario.setLayout(gbl_form);
 
-        GridBagConstraints c = new GridBagConstraints();
+        c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
 
@@ -84,7 +100,7 @@ public class Dirreccion extends JFrame {
         c.gridy = 1;
         panelFormulario.add(new JLabel("País/Región:"), c);
         
-        JComboBox cboxPaises = new JComboBox();
+        cboxPaises = new JComboBox();
         cboxPaises.setModel(new DefaultComboBoxModel<>(new String[] {
         	"Seleccionar","Alemania", "Argentina", "Australia", "Brasil", "Canadá", "Chile", "China", 
             "Colombia", "España", "Estados Unidos", "Francia", "Japón", "México", "Perú"
@@ -92,9 +108,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlPaises = new JPanel(new BorderLayout());
         pnlPaises.setOpaque(false);
         pnlPaises.add(cboxPaises, BorderLayout.CENTER);
-        JLabel lblObs1 = new JLabel("Selecciona un pais");
-        lblObs1.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs1.setForeground(Color.RED);
+        lblObs1 = new LblAlertForm("Selecciona un pais");
         pnlPaises.add(lblObs1, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -110,9 +124,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlNombre = new JPanel(new BorderLayout());
         pnlNombre.setOpaque(false);
         pnlNombre.add(txtNombre, BorderLayout.CENTER);
-        JLabel lblObs2 = new JLabel("El nombre es obligatorio");
-        lblObs2.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs2.setForeground(Color.RED);
+        lblObs2 = new LblAlertForm("El nombre es obligatorio");
         pnlNombre.add(lblObs2, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -128,9 +140,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlCalle = new JPanel(new BorderLayout());
         pnlCalle.setOpaque(false);
         pnlCalle.add(txtCalle, BorderLayout.CENTER);
-        JLabel lblObs3 = new JLabel("*Este campo es obligatorio");
-        lblObs3.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs3.setForeground(Color.RED);
+        lblObs3 = new LblAlertForm("*Este campo es obligatorio");
         pnlCalle.add(lblObs3, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -146,9 +156,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlCP = new JPanel(new BorderLayout());
         pnlCP.setOpaque(false);
         pnlCP.add(txtCodigoPostal, BorderLayout.CENTER);
-        JLabel lblObs4 = new JLabel("El codigo postal es obligatorio");
-        lblObs4.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs4.setForeground(Color.RED);
+        lblObs4 = new LblAlertForm("El codigo postal es obligatorio");
         pnlCP.add(lblObs4, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 0, 5); 
@@ -159,8 +167,6 @@ public class Dirreccion extends JFrame {
         c.anchor = GridBagConstraints.CENTER;
         c.gridy = 9;
         c.insets = new Insets(5, 5, 20, 5);
-        BtnDirecion btnValidarCP = new BtnDirecion("Validar Codigo Postal", 12, 2);
-        panelFormulario.add(btnValidarCP, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(2, 5, 0, 5);
@@ -172,9 +178,7 @@ public class Dirreccion extends JFrame {
         JPanel pnlTel = new JPanel(new BorderLayout());
         pnlTel.setOpaque(false);
         pnlTel.add(txtNumeroTelefono, BorderLayout.CENTER);
-        JLabel lblObs5 = new JLabel("El telefono es obligatorio");
-        lblObs5.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs5.setForeground(Color.RED);
+        lblObs5 = new LblAlertForm("El telefono es obligatorio");
         pnlTel.add(lblObs5, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 3, 5); 
@@ -185,14 +189,12 @@ public class Dirreccion extends JFrame {
         c.gridy = 12;
         panelFormulario.add(new JLabel("Instrucciones de entrega:"), c);
         
-        JTextArea txtDetalles = new JTextArea(4, 20);
+        txtDetalles = new JTextArea(4, 20);
         JScrollPane scroll = new JScrollPane(txtDetalles);
         JPanel pnlDetalles = new JPanel(new BorderLayout());
         pnlDetalles.setOpaque(false);
         pnlDetalles.add(scroll, BorderLayout.CENTER);
-        JLabel lblObs6 = new JLabel("Campo obligatorio"); 
-        lblObs6.setFont(new Font("Arial", Font.PLAIN, 10));
-        lblObs6.setForeground(Color.RED);
+        lblObs6 = new LblAlertForm("Campo obligatorio"); 
         pnlDetalles.add(lblObs6, BorderLayout.SOUTH);
         
         c.insets = new Insets(0, 5, 0, 5); 
@@ -204,12 +206,116 @@ public class Dirreccion extends JFrame {
         c.insets = new Insets(5, 5, 10, 5);
         c.gridy = 14;
         panelFormulario.add(chckbx, c);
-
-        BtnDirecion btnConfirmar = new BtnDirecion("Confirmar Direccion", 20, 3);
-        c.gridy = 15;
-        c.insets = new Insets(10, 5, 10, 5);
-        panelFormulario.add(btnConfirmar, c);
+        	
+        generarBotones();
+        
 
         setVisible(true);
     }
+    
+    private void generarBotones() {
+    	    btnConfirmar = new BtnDirecion("Confirmar Direccion", 20, 3);
+        c.gridy = 15;
+        c.insets = new Insets(10, 5, 10, 5);
+        panelFormulario.add(btnConfirmar, c);
+		
+        btnConfirmar.addActionListener( e -> validarForm());
+	}
+    
+	private void validarForm() {
+		resetearAvisos();
+		boolean valido = true;
+		
+		
+		if(!verificarPais()) {
+			valido = false;
+		}
+		
+		if(!verificarNombre()) {
+			valido = false;
+		}
+		
+		if(!verificarDirrecion()) {
+			valido = false;
+		}
+		
+		if(!verificarCP()) {
+			valido = false;
+		}
+		
+		if(!verificarTelefono()) {
+			valido = false;
+		}
+		
+		if(!verificarDetails()) {
+			valido = false;
+		}
+		
+		if (valido) {
+			JOptionPane.showMessageDialog(this, "Exito");
+		}
+		
+	}
+	
+	private boolean verificarDetails() {
+		if(txtDetalles.getText().trim().equals("")) {
+			lblObs6.setText("Campo obligatorio");
+			lblObs6.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean verificarTelefono() {
+		if(txtNumeroTelefono.getText().trim().equals("")) {
+			lblObs5.setText("El telefono es obligatorio");
+			lblObs5.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean verificarCP() {
+		if(txtCodigoPostal.getText().trim().equals("")) {
+			lblObs4.setText("El Código postal es obligatorio");
+			lblObs4.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean verificarDirrecion() {
+		if(txtCalle.getText().trim().equals("")) {
+			lblObs3.setText("*Este campo es obligatorio");
+			lblObs3.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean verificarNombre() {
+		if(txtNombre.getText().trim().equals("")) {
+			lblObs2.setText("Nombre requerido");
+			lblObs2.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+
+	private boolean verificarPais() {
+		if(cboxPaises.getSelectedIndex() == 0) {
+			lblObs1.setText("Debes escoger un pais");
+			lblObs1.setFont(new Font("Arial", Font.BOLD, 10));
+			return false;
+		}
+		return true;
+	}
+	private void resetearAvisos() {
+	    lblObs1.setText("");
+	    lblObs2.setText("");
+	    lblObs3.setText("");
+	    lblObs4.setText("");
+	    lblObs5.setText("");
+	    lblObs6.setText("");
+	}
 }
