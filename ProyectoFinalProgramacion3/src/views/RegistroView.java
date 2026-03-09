@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -92,6 +94,7 @@ public class RegistroView extends JFrame {
         generarCampos(panelFormulario);
         generarAvisos(panelFormulario);
         generarBotones(panelFormulario);
+        eventosCampos();
     }
 
     private void generarTitulos(JPanel panel) {
@@ -293,11 +296,113 @@ public class RegistroView extends JFrame {
     }
 
     private boolean verificarConfirmarPassword() {
-        if(new String(txtConfirmarContrasena.getPassword()).trim().equals("")) {
+        if(new String(txtConfirmarContrasena.getPassword()).trim().equals("") && new String(txtConfirmarContrasena.getPassword()).equals(new String(txtContrasena.getPassword()))){
             lblAvisoConfirmar.setText("Confirme su contrasena");
             lblAvisoConfirmar.setFont(new Font("Arial", Font.ITALIC, 10));
             return false;
         }
         return true;
+    }
+    
+    private void eventosCampos(){
+    		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
+    			@Override
+    			public void removeUpdate(DocumentEvent e) {
+    				verificarInstaUsuario();
+    			}
+    			
+    			@Override
+    			public void insertUpdate(DocumentEvent e) {
+    				verificarInstaUsuario();
+    			}
+    			
+    			@Override
+    			public void changedUpdate(DocumentEvent e) {
+    				verificarInstaUsuario();
+    			}
+    		});
+    		
+        txtCorreo.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificarInstaCorreo();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificarInstaCorreo();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				verificarInstaCorreo();
+			}
+		});
+        
+        txtContrasena.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificarInstaPassword();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificarInstaPassword();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				verificarInstaPassword();
+			}
+		});
+        
+        txtConfirmarContrasena.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificarInstaConfiPassword();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificarInstaConfiPassword();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				verificarInstaConfiPassword();
+			}
+		});
+    }
+    
+    private void verificarInstaUsuario() {
+    		lblAvisoUsuario.setText("");
+        if(txtUsuario.getText().trim().equals("")) {
+            lblAvisoUsuario.setText("Usuario requerido");
+            lblAvisoUsuario.setFont(new Font("Arial", Font.ITALIC, 10));
+        }
+    }
+    
+    private void verificarInstaCorreo() {
+	    	lblAvisoCorreo.setText(" ");
+	    	if(txtCorreo.getText().trim().equals("")) {
+	            lblAvisoCorreo.setText("Correo requerido");
+	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
+	        }
+    }
+    
+    private void verificarInstaPassword() {
+    	lblAvisoContra.setText(" ");
+    	if(new String(txtContrasena.getPassword()).trim().equals("")) {
+            lblAvisoContra.setText("Contrasena requerida");
+            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
+        }
+    }
+    
+    private void verificarInstaConfiPassword() {
+    		lblAvisoConfirmar.setText(" ");
+	    	if(new String(txtConfirmarContrasena.getPassword()).trim().equals("") || !(new String(txtConfirmarContrasena.getPassword()).equals(new String(txtContrasena.getPassword())))){
+	            lblAvisoConfirmar.setText("Confirme su contrasena");
+	            lblAvisoConfirmar.setFont(new Font("Arial", Font.ITALIC, 10));  
+	     }
     }
 }

@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.border.EmptyBorder;
 
 import components.BordePanel;
@@ -171,12 +173,16 @@ public class LoginView extends JFrame{
 		txtUsuario.putClientProperty("JTextField.placeholderText", "Ingresa tu nombre de usuario");
 		txtUsuario.setBounds(143, 155, 316, 25);
 		add(txtUsuario);
-
+				
 		txtContrasena = new JPasswordField();
 		txtContrasena.putClientProperty("JTextField.placeholderText", "Ingresa tu contrasena");
 		txtContrasena.setBounds(143, 246, 316, 25);
 		add(txtContrasena);
+		
+		eventosTextField();
 	}
+	
+	
 	
 	private void generarImagen() {
 		lblCafeImg = new JLabel("", cargarIcono("../img/cafe.png", 300, 300), JLabel.CENTER);
@@ -233,6 +239,63 @@ public class LoginView extends JFrame{
 		return true;
 	}
 	
+	private void eventosTextField() {
+		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificacionInstaUsuario();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificacionInstaUsuario();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				verificacionInstaUsuario();
+			}
+		});
+
+		txtContrasena.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				lblContraseaRequerida.setText("");
+				if(new String(txtContrasena.getPassword()).trim().equals("")) {
+					lblContraseaRequerida.setText("Contraseña Requerida");
+					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+				}
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				lblContraseaRequerida.setText("");
+				if(new String(txtContrasena.getPassword()).trim().equals("")) {
+					lblContraseaRequerida.setText("Contraseña Requerida");
+					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+				}
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				lblContraseaRequerida.setText("");
+				if(new String(txtContrasena.getPassword()).trim().equals("")) {
+					lblContraseaRequerida.setText("Contraseña Requerida");
+					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+				}
+			}
+		});
+
+	}
+	
+	private void verificacionInstaUsuario(){
+		lblUsuarioRequerido.setText("");
+		if(txtUsuario.getText().trim().equals("")) {
+			lblUsuarioRequerido.setText("Usuario Requerido");
+			lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		}
+	}
 	
 	
 }
