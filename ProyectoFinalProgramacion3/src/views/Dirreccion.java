@@ -17,6 +17,9 @@ import components.LblAviso;
 import components.LblSubtituloDirreccion;
 import javax.swing.border.LineBorder;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -50,11 +53,11 @@ public class Dirreccion extends JFrame {
     JPanel panelFormulario;
     
     public Dirreccion() {
-    		setTitle("Saturnbucks.direccion");
-    		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setBounds(100, 100, 450, 650); //Juan pablo tamaño
-        setBounds(100, 100, 450, 720);//Ivan tamaño 
+    	setTitle("Saturnbucks.direccion");
+    		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 450, 650); //Juan pablo tamaño
+        //setBounds(100, 100, 450, 720);//Ivan tamaño 
         setResizable(false);
         setLocationRelativeTo(null);
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -223,6 +226,7 @@ public class Dirreccion extends JFrame {
 		
         btnConfirmar.addActionListener( e -> validarForm());
         
+
 
 
 	}
