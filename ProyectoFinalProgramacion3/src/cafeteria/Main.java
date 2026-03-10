@@ -12,7 +12,7 @@ public class Main {
 	FlatLightLaf.setup();
 	LoginView ventana = new LoginView();
 	//RegistroView bienvenida = new RegistroView();
-	//Dirreccion direcion = new Dirreccion();
+	Dirreccion direcion = new Dirreccion();
 	}
 }
 

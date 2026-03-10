@@ -379,23 +379,53 @@ public class RegistroView extends JFrame {
         if(txtUsuario.getText().trim().equals("")) {
             lblAvisoUsuario.setText("Usuario requerido");
             lblAvisoUsuario.setFont(new Font("Arial", Font.ITALIC, 10));
+        }else {
+        		if(txtUsuario.getText().trim().length() < 5 ) {
+        			 lblAvisoUsuario.setText("Debe contener almenos 5 caracteres");
+        		}
         }
     }
     
     private void verificarInstaCorreo() {
 	    	lblAvisoCorreo.setText(" ");
-	    	if(txtCorreo.getText().trim().equals("")) {
+	    	if(txtCorreo.getText().trim().equals("") ) {
 	            lblAvisoCorreo.setText("Correo requerido");
 	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
-	        }
+	    	}
+	    	if(!txtCorreo.getText().contains("@")) {
+	            lblAvisoCorreo.setText("Correo Invalido");
+	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
+	 }
     }
     
     private void verificarInstaPassword() {
-    	lblAvisoContra.setText(" ");
-    	if(new String(txtContrasena.getPassword()).trim().equals("")) {
-            lblAvisoContra.setText("Contrasena requerida");
-            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
-        }
+    		boolean mayuscula=false;
+    		boolean numeros=false;
+	    	lblAvisoContra.setText(" ");
+	    	if(new String(txtContrasena.getPassword()).trim().equals("")) {
+	            lblAvisoContra.setText("Contrasena requerida");
+	            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
+	    //Mayuscula
+	    //Numeros
+	    }else {
+		   for(int i = 0; i < new String(txtContrasena.getPassword()).length(); i++) {
+			   if (Character.isUpperCase(new String(txtContrasena.getPassword()).charAt(i))) {
+		            mayuscula=true; 
+		        }
+			   
+			   if(new String(txtContrasena.getPassword()).matches(".*\\d.*")) {
+				   numeros=true;
+			   }
+		   }
+		   
+		   if(!mayuscula) {
+			   lblAvisoContra.setText("Se necesita al menos una mayuscula");
+		   }
+		   
+		   if(!numeros) {
+			   lblAvisoContra.setText("Se necesita al menos un numero");
+		   }
+	    }
     }
     
     private void verificarInstaConfiPassword() {
