@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -253,7 +255,7 @@ public class RegistroView extends JFrame {
 
     }
 
-
+    
 
     private void validarForm() {
         resetearAvisos();
@@ -404,6 +406,7 @@ public class RegistroView extends JFrame {
         			 lblAvisoUsuario.setText("Debe contener almenos 5 caracteres");
         		}
         }
+
     }
     
     private void verificarInstaCorreo() {
