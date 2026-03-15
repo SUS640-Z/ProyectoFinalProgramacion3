@@ -10,8 +10,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JPasswordField;
@@ -19,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,27 +43,6 @@ import components.LblSubtitulo;
 
 public class LoginView extends JFrame{
 	
-	public LoginView() {
-		//setSize(600,600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("SaturnBucks");
-		//setLocation(100,100);
-		setBounds(200,100,600,640); // cordenadas y tamaño
-		setResizable(false);
-		setLocationRelativeTo(null);// Colocar la ventana el centro
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image icono = tk.getImage("src/img/SATURN_BUCKS_3.png");
-		setIconImage(icono);
-		//Panel panelito = new Panel();
-		//add(panelito);
-		BordePanel login = new BordePanel("LOG IN",Color.white);
-		login.setBackground(new Color(15, 19, 9));
-		generarComponentes();
-		add(login);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setVisible(true);
-	}
-	
 	JTextField txtUsuario;
 	JPasswordField txtContrasena;
 	
@@ -72,6 +56,50 @@ public class LoginView extends JFrame{
 	
 	JLabel lblCafeImg;
 	
+	public LoginView() {
+		//setSize(600,600);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setTitle("SaturnBucks");
+		//setLocation(100,100);
+		setBounds(200,100,600,640); // cordenadas y tamaño
+		setResizable(false);
+		setLocationRelativeTo(null);// Colocar la ventana el centro
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image icono = tk.getImage("src/img/SATURN_BUCKS_3.png");
+		setIconImage(icono);
+		//Panel panelito = new Panel();
+		//add(panelito);
+		BordePanel login = new BordePanel("LOG IN",Color.white);
+		login.setBackground(new Color(15, 19, 9));
+		generarComponentes();
+		aplicarEventoFocus();
+		add(login);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setVisible(true);
+		eventoCerradoVentana();
+	}
+	
+	private void aplicarEventoFocus(){
+		txtUsuario.addFocusListener(efectoFocus);;
+		txtContrasena.addFocusListener(efectoFocus);;
+	 }
+
+	private void eventoCerradoVentana() {
+ 		addWindowListener(new WindowAdapter() {
+ 			public void windowClosing(WindowEvent e) {
+ 				int opcion = JOptionPane.showConfirmDialog(
+ 		                 null,
+ 		                 "¿Seguro que deseas cerrar la aplicación?",
+ 		                 "Confirmar salida",
+ 		                 JOptionPane.YES_NO_OPTION
+ 		         );
+
+ 		         if(opcion == JOptionPane.YES_OPTION){
+ 		             dispose(); 
+ 		         }
+ 	        }
+ 		});
+ 	}
 	
 	private ImageIcon cargarIcono(String ruta, int ancho, int largo) {
 
@@ -101,6 +129,28 @@ public class LoginView extends JFrame{
 		
 		}
 	}
+	
+	FocusAdapter efectoFocus = new FocusAdapter() {
+
+        Color bordeActivo = new Color(0, 200, 120);   
+        Color bordeInactivo = Color.BLACK; 
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            ((JComponent) e.getSource()).setBorder(
+                BorderFactory.createLineBorder(bordeActivo, 2)
+            );
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            ((JComponent) e.getSource()).setBorder(
+                BorderFactory.createLineBorder(bordeInactivo, 1)
+            );
+        }
+    };
+    
+    
 	
 	private void generarBotones() {
 		JButton btnConfimar = new JButton("Ingresar");
@@ -170,14 +220,14 @@ public class LoginView extends JFrame{
 	
 	private void generarTitulos() {
 		lblIniciarSesion = new JLabel("Iniciar Sesion");
-		lblIniciarSesion.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblIniciarSesion.setFont(new Font("Times New Roman", Font.BOLD, 40));
 		lblIniciarSesion.setForeground(new Color(255, 255, 255));
 		lblIniciarSesion.setBounds(130, 41, 350, 62);
 		lblIniciarSesion.setForeground(Color.WHITE);
 		lblIniciarSesion.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblIniciarSesion);
 		
-		lblUsuario = new LblSubtitulo("USUARIO: ");
+		lblUsuario = new LblSubtitulo("CORREO: ");
 		lblUsuario.setBounds(133, 131, 220, 25);
 		lblUsuario.setForeground(Color.WHITE);
 		add(lblUsuario);
@@ -316,6 +366,11 @@ public class LoginView extends JFrame{
 			lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		}
 	}
+	
+
+	
+	
+	
 	
 	
 }

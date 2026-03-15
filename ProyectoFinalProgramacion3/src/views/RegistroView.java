@@ -8,8 +8,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
@@ -18,6 +24,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,11 +39,13 @@ import components.LblSubtitulo;
 public class RegistroView extends JFrame {
 
     private JPanel contentPane;
-    private JTextField txtUsuario;
+    private JTextField txtName;
+    private JTextField txtLastName;
     private JTextField txtCorreo;
     private JPasswordField txtContrasena;
     private JPasswordField txtConfirmarContrasena;
-    private LblAviso lblAvisoUsuario;
+    private LblAviso lblAvisoName;
+    private LblAviso lblAvisoLastName;
     private LblAviso lblAvisoCorreo;
     private LblAviso lblAvisoContra;
     private LblAviso lblAvisoConfirmar;
@@ -49,8 +58,8 @@ public class RegistroView extends JFrame {
 
     public RegistroView() {
         setTitle("Saturnbucks.registro");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 350, 600);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setBounds(100, 100, 350, 645);
         setResizable(false);
         setLocationRelativeTo(null);
         
@@ -77,13 +86,60 @@ public class RegistroView extends JFrame {
         contentPane.setLayout(new GridBagLayout());
 
         generarComponentes();
-
+        aplicarEventoFocus();
         resetearAvisos();
-        
+        eventoCerradoVentana();
         setVisible(true);
     }
 
-    private void generarComponentes() {
+    
+    	FocusAdapter efectoFocus = new FocusAdapter() {
+
+        Color bordeActivo = new Color(0, 200, 120);   
+        Color bordeInactivo = Color.BLACK; 
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            ((JComponent) e.getSource()).setBorder(
+                BorderFactory.createLineBorder(bordeActivo, 2)
+            );
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            ((JComponent) e.getSource()).setBorder(
+                BorderFactory.createLineBorder(bordeInactivo, 1)
+            );
+        }
+    };
+    
+    private void aplicarEventoFocus(){
+    		txtName.addFocusListener(efectoFocus);
+    		txtLastName.addFocusListener(efectoFocus);
+    		txtCorreo.addFocusListener(efectoFocus);
+    		txtContrasena.addFocusListener(efectoFocus);
+    		txtConfirmarContrasena.addFocusListener(efectoFocus);
+    }
+    
+	private void eventoCerradoVentana() {
+    		addWindowListener(new WindowAdapter() {
+    			public void windowClosing(WindowEvent e) {
+    				int opcion = JOptionPane.showConfirmDialog(
+    		                 null,
+    		                 "¿Seguro que deseas cerrar la aplicación?",
+    		                 "Confirmar salida",
+    		                 JOptionPane.YES_NO_OPTION
+    		         );
+
+    		         if(opcion == JOptionPane.YES_OPTION){
+    		             dispose(); 
+    		         }
+    	        }
+    		});
+    	}
+
+
+	private void generarComponentes() {
         JPanel panelFormulario = new JPanel(new GridBagLayout());
         panelFormulario.setOpaque(false); 
         
@@ -120,52 +176,56 @@ public class RegistroView extends JFrame {
 
         c.insets = new Insets(2, 5, 0, 5);
         c.gridy = 1;
-        LblSubtitulo lblUser = new LblSubtitulo("Usuario:");
-        lblUser.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        lblUser.setForeground(Color.WHITE);
-        panel.add(lblUser, c);
+        LblSubtitulo lblName = new LblSubtitulo("Nombre:");
+        panel.add(lblName, c);
+        
         
         c.insets = new Insets(0, 5, 15, 5);
         c.gridy = 2;
-        txtUsuario = new JTextField(20);
-        panel.add(txtUsuario, c);
-
-
+        txtName = new JTextField(20);
+        panel.add(txtName, c);
+        
         c.insets = new Insets(2, 5, 0, 5);
         c.gridy = 4;
-        LblSubtitulo lblCorreo = new LblSubtitulo("Correo electronico:");
-        lblCorreo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        lblCorreo.setForeground(Color.WHITE);
-        panel.add(lblCorreo, c);
+        LblSubtitulo lblLastName = new LblSubtitulo("Apellidos:");
+        panel.add(lblLastName, c);
         
         c.insets = new Insets(0, 5, 15, 5);
         c.gridy = 5;
+        txtLastName = new JTextField(20);
+        panel.add(txtLastName, c);
+        
+
+
+        c.insets = new Insets(2, 5, 0, 5);
+        c.gridy = 7;
+        LblSubtitulo lblCorreo = new LblSubtitulo("Correo electronico:");
+        panel.add(lblCorreo, c);
+        
+        c.insets = new Insets(0, 5, 15, 5);
+        c.gridy = 8;
         txtCorreo = new JTextField(20);
         panel.add(txtCorreo, c);
 
 
         c.insets = new Insets(2, 5, 0, 5);
-        c.gridy = 7;
+        c.gridy = 10;
         LblSubtitulo lblContra = new LblSubtitulo("Contrasena:");
-        lblContra.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        lblContra.setForeground(Color.WHITE);
         panel.add(lblContra, c);
         
         c.insets = new Insets(0, 5, 15, 5);
-        c.gridy = 8;
+        c.gridy = 11;
         txtContrasena = new JPasswordField(20);
         panel.add(txtContrasena, c);
         
 
         c.insets = new Insets(2, 5, 0, 5);
-        c.gridy = 10;
+        c.gridy = 13;
         LblSubtitulo lblConf = new LblSubtitulo("Confirmar contrasena:");
-        lblConf.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        lblConf.setForeground(Color.WHITE);
         panel.add(lblConf, c);
         
         c.insets = new Insets(0, 5, 15, 5);
-        c.gridy = 11;
+        c.gridy = 14;
         txtConfirmarContrasena = new JPasswordField(20);
         panel.add(txtConfirmarContrasena, c);
     }
@@ -177,27 +237,31 @@ public class RegistroView extends JFrame {
         c.insets = new Insets(0, 5, 5, 4);
         Font fontAviso = new Font("Arial", Font.ITALIC, 10);
 
-        lblAvisoUsuario = new LblAviso("");
-        lblAvisoUsuario.setForeground(Color.RED); lblAvisoUsuario.setFont(fontAviso);
-        c.gridy = 3; panel.add(lblAvisoUsuario, c);
+        lblAvisoName = new LblAviso("");
+        lblAvisoName.setForeground(Color.RED); lblAvisoName.setFont(fontAviso);
+        c.gridy = 3; panel.add(lblAvisoName, c);
 
+        lblAvisoLastName = new LblAviso("");
+        lblAvisoLastName.setForeground(Color.RED); lblAvisoLastName.setFont(fontAviso);
+        c.gridy = 6; panel.add(lblAvisoLastName, c);
+        
         lblAvisoCorreo = new LblAviso("");
         lblAvisoCorreo.setForeground(Color.RED); lblAvisoCorreo.setFont(fontAviso);
-        c.gridy = 6; panel.add(lblAvisoCorreo, c);
+        c.gridy = 9; panel.add(lblAvisoCorreo, c);
 
         lblAvisoContra = new LblAviso("");
         lblAvisoContra.setForeground(Color.RED); lblAvisoContra.setFont(fontAviso);
-        c.gridy = 9; panel.add(lblAvisoContra, c);
+        c.gridy = 12; panel.add(lblAvisoContra, c);
         
         lblAvisoConfirmar = new LblAviso("");
         lblAvisoConfirmar.setForeground(Color.RED); lblAvisoConfirmar.setFont(fontAviso);
-        c.gridy = 12; panel.add(lblAvisoConfirmar, c);
+        c.gridy = 15; panel.add(lblAvisoConfirmar, c);
     }
 
     private void generarBotones(JPanel panel) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 13;
+        c.gridy = 16;
         c.insets = new Insets(20, 5, 10, 5); 
 
         JButton btnRegistrar = new JButton("Registrarme");
@@ -228,18 +292,23 @@ public class RegistroView extends JFrame {
         lblRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lblRegresar.setAlignmentX(JLabel.CENTER);
         
-        c.gridy = 16;
+        c.gridy = 17;
         c.insets = new Insets(1, 1, 1, 1);
         contentPane.add(lblRegresar, c);
         
         lblRegresar.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-	            	int option = JOptionPane.showConfirmDialog(null, "¿Seguro que deseas regresar? Se perderán todos los datos");
-	    			
-	    			if(option == JOptionPane.YES_OPTION) {
-	    				new LoginView();
-	    				dispose();
-	    			} 
+            	int opcion = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Seguro que deseas regresar?",
+                        "Confirmar salida",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if(opcion == JOptionPane.YES_OPTION){
+                    dispose(); 
+                    LoginView ventana = new LoginView();
+                }
             }
             
             public void mouseEntered(MouseEvent e){
@@ -260,7 +329,11 @@ public class RegistroView extends JFrame {
         
         boolean valido = true;
         
-        if (!verificarUsuario()) {
+        if (!verificarName()) {
+            valido = false; 
+        }
+        
+        if (!verificarLastName()) {
             valido = false; 
         }
         
@@ -282,16 +355,25 @@ public class RegistroView extends JFrame {
     }
     
     private void resetearAvisos() {
-        lblAvisoUsuario.setText("");
+        lblAvisoName.setText("");
         lblAvisoCorreo.setText("");
         lblAvisoContra.setText("");
         lblAvisoConfirmar.setText("");
     }
     
-    private boolean verificarUsuario() {
-        if(txtUsuario.getText().trim().equals("")) {
-            lblAvisoUsuario.setText("Usuario requerido");
-            lblAvisoUsuario.setFont(new Font("Arial", Font.ITALIC, 10));
+    private boolean verificarName() {
+        if(txtName.getText().trim().equals("")) {
+            lblAvisoName.setText("Nombre requerido");
+            lblAvisoName.setFont(new Font("Arial", Font.ITALIC, 10));
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean verificarLastName() {
+        if(txtLastName.getText().trim().equals("")) {
+            lblAvisoLastName.setText("Apellido requerido");
+            lblAvisoLastName.setFont(new Font("Arial", Font.ITALIC, 10));
             return false;
         }
         return true;
@@ -325,22 +407,40 @@ public class RegistroView extends JFrame {
     }
     
     private void eventosCampos(){
-    		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
+    		txtName.getDocument().addDocumentListener(new DocumentListener() {
     			@Override
     			public void removeUpdate(DocumentEvent e) {
-    				verificarInstaUsuario();
+    				verificarInstaName();
     			}
     			
     			@Override
     			public void insertUpdate(DocumentEvent e) {
-    				verificarInstaUsuario();
+    				verificarInstaName();
     			}
     			
     			@Override
     			public void changedUpdate(DocumentEvent e) {
-    				verificarInstaUsuario();
+    				verificarInstaName();
     			}
     		});
+    		
+    		txtLastName.getDocument().addDocumentListener(new DocumentListener() {
+    			@Override
+    			public void removeUpdate(DocumentEvent e) {
+    				verificarInstaLastName();
+    			}
+    			
+    			@Override
+    			public void insertUpdate(DocumentEvent e) {
+    				verificarInstaLastName();
+    			}
+    			
+    			@Override
+    			public void changedUpdate(DocumentEvent e) {
+    				verificarInstaLastName();
+    			}
+    		});
+
     		
         txtCorreo.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -394,17 +494,71 @@ public class RegistroView extends JFrame {
 		});
     }
     
-    private void verificarInstaUsuario() {
-    		lblAvisoUsuario.setText("");
-        if(txtUsuario.getText().trim().equals("")) {
-            lblAvisoUsuario.setText("Usuario requerido");
-            lblAvisoUsuario.setFont(new Font("Arial", Font.ITALIC, 10));
+    private void verificarInstaName() {
+    		lblAvisoName.setText("");
+        if(txtName.getText().trim().equals("")) {
+            lblAvisoName.setText("Nombres requerido");
+            lblAvisoName.setFont(new Font("Arial", Font.ITALIC, 10));
         }else {
-        		if(txtUsuario.getText().trim().length() < 5 ) {
-        			 lblAvisoUsuario.setText("Debe contener almenos 5 caracteres");
-        		}
+        	if(txtName.getText().matches(".*\\d.*")) {
+      			 lblAvisoName.setText("No debe contener numeros");
+      	}
+       		
+        		txtName.addKeyListener(new KeyAdapter() {
+        			public void keyTyped(KeyEvent e) {
+        				if((Character.isDigit(e.getKeyChar()) || !Character.isAlphabetic(e.getKeyChar())) && !(e.getKeyChar() == ' ') ) {
+        					e.consume();
+        				}
+        				
+        				if(txtName.getText().length() > 25) {
+        					lblAvisoName.setText("No puedes tener mas 25 caractereres");
+        					e.consume();
+        				}
+        				
+        				char c = e.getKeyChar();
+        				
+        				if(Character.isLowerCase(c)) {
+        					e.setKeyChar(Character.toUpperCase(c));
+        				}
+        			}
+        		
+        		});
+        		
         }
     }
+    
+    private void verificarInstaLastName() {
+		lblAvisoLastName.setText("");
+	    if(txtLastName.getText().trim().equals("")) {
+	        lblAvisoLastName.setText("Apellidos requerido");
+	        lblAvisoLastName.setFont(new Font("Arial", Font.ITALIC, 10));
+	    }else {
+    		
+    		if(txtLastName.getText().matches(".*\\d.*")) {
+   			 lblAvisoLastName.setText("No debe contener numeros");
+   		}
+    		
+    		txtLastName.addKeyListener(new KeyAdapter() {
+    			public void keyTyped(KeyEvent e) {
+    				if((Character.isDigit(e.getKeyChar()) || !Character.isAlphabetic(e.getKeyChar())) && !(e.getKeyChar() == ' ') ) {
+    					e.consume();
+    				}
+    				
+    				if(txtLastName.getText().length() > 25) {
+    					lblAvisoLastName.setText("No puedes tener mas 25 caractereres");
+    					e.consume();
+    				}
+    				
+    				char c = e.getKeyChar();
+    				
+    				if(Character.isLowerCase(c)) {
+    					e.setKeyChar(Character.toUpperCase(c));
+    				}
+    			}
+    		});
+    		
+    }
+}
     
     private void verificarInstaCorreo() {
 	    	lblAvisoCorreo.setText(" ");
@@ -415,7 +569,27 @@ public class RegistroView extends JFrame {
 	    	if(!txtCorreo.getText().contains("@")) {
 	            lblAvisoCorreo.setText("Correo Invalido");
 	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
-	 }
+	    	}
+	    	
+	    	txtCorreo.addKeyListener(new KeyAdapter() {
+    			public void keyTyped(KeyEvent e) {
+    				if(e.getKeyChar() == ' ') {
+    					e.consume();
+    				}
+    				
+    				if(txtCorreo.getText().length() > 50) {
+    					lblAvisoCorreo.setText("No puedes tener mas 50 caractereres");
+    					e.consume();
+    				}
+    				
+    				char c = e.getKeyChar();
+    				
+    				if(Character.isLowerCase(c)) {
+    					e.setKeyChar(Character.toUpperCase(c));
+    				}
+    			}
+    		
+    		});
     }
     
     private void verificarInstaPassword() {
@@ -426,8 +600,6 @@ public class RegistroView extends JFrame {
 	    	if(new String(txtContrasena.getPassword()).trim().equals("")) {
 	            lblAvisoContra.setText("Contrasena requerida");
 	            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
-	    //Mayuscula
-	    //Numeros
 	    }else {
 		   for(int i = 0; i < new String(txtContrasena.getPassword()).length(); i++) {
 			   if (Character.isUpperCase(new String(txtContrasena.getPassword()).charAt(i))) {
@@ -454,13 +626,36 @@ public class RegistroView extends JFrame {
 			   lblAvisoContra.setText("Debe contener almenos 8 caracteres");
 		   }
 	    }
+	    	
+	    		txtContrasena.addKeyListener(new KeyAdapter() {
+    			public void keyTyped(KeyEvent e) {
+    				if(e.getKeyChar() == ' ') {
+    					e.consume();
+    				}
+    				
+    				if((new String(txtContrasena.getPassword())).length() > 20) {
+    					lblAvisoContra.setText("No puedes tener mas 20 caractereres");
+    					e.consume();
+    				}
+    				
+    				char c = e.getKeyChar();
+    				
+    				if(Character.isLowerCase(c)) {
+    					e.setKeyChar(Character.toUpperCase(c));
+    				}
+    			}
+    		
+    		});
+	    	
     }
     
     private void verificarInstaConfiPassword() {
     		lblAvisoConfirmar.setText(" ");
 	    	if(new String(txtConfirmarContrasena.getPassword()).trim().equals("") || !(new String(txtConfirmarContrasena.getPassword()).equals(new String(txtContrasena.getPassword())))){
-	            lblAvisoConfirmar.setText("Confirme su contrasena");
+	            lblAvisoConfirmar.setText("Las contraseñas no son iguales");
 	            lblAvisoConfirmar.setFont(new Font("Arial", Font.ITALIC, 10));  
 	     }
     }
+    
+
 }
