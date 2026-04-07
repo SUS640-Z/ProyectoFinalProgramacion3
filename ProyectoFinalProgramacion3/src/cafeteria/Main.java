@@ -11,10 +11,10 @@ public class Main {
 	public static void main(String[] args) {
 
 	FlatLightLaf.setup();
-	//LoginView ventana = new LoginView();
+	LoginView ventana = new LoginView();
 	//RegistroView bienvenida = new RegistroView();
 	//Dirreccion direcion = new Dirreccion();
-	InicioView inicio = new InicioView ();
+	//InicioView inicio = new InicioView ();
 	}
 }
 

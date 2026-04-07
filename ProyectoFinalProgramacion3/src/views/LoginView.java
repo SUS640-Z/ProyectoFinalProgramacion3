@@ -5,11 +5,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -27,21 +24,17 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.border.EmptyBorder;
 
 import components.BordePanel;
 import components.LblAviso;
 import components.LblSubtitulo;
 
-public class LoginView extends JFrame{
+public class LoginView extends JFrame {
 	
 	JTextField txtUsuario;
 	JPasswordField txtContrasena;
@@ -55,34 +48,34 @@ public class LoginView extends JFrame{
 	LblSubtitulo lblContasena;
 	
 	JLabel lblCafeImg;
+
+    private final String USUARIO_VALIDO = "pepe@gmail.com";
+    private final String PASSWORD_VALIDA = "12345";
 	
 	public LoginView() {
-		//setSize(600,600);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("SaturnBucks");
-		//setLocation(100,100);
-		setBounds(200,100,600,640); // cordenadas y tamaño
+		setBounds(200,100,600,640); 
 		setResizable(false);
-		setLocationRelativeTo(null);// Colocar la ventana el centro
+		setLocationRelativeTo(null);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image icono = tk.getImage("src/img/SATURN_BUCKS_3.png");
 		setIconImage(icono);
-		//Panel panelito = new Panel();
-		//add(panelito);
+		
 		BordePanel login = new BordePanel("LOG IN",Color.white);
 		login.setBackground(new Color(15, 19, 9));
 		generarComponentes();
 		aplicarEventoFocus();
 		add(login);
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		setVisible(true);
 		eventoCerradoVentana();
 	}
 	
 	private void aplicarEventoFocus(){
-		txtUsuario.addFocusListener(efectoFocus);;
-		txtContrasena.addFocusListener(efectoFocus);;
-	 }
+		txtUsuario.addFocusListener(efectoFocus);
+		txtContrasena.addFocusListener(efectoFocus);
+	}
 
 	private void eventoCerradoVentana() {
  		addWindowListener(new WindowAdapter() {
@@ -102,7 +95,6 @@ public class LoginView extends JFrame{
  	}
 	
 	private ImageIcon cargarIcono(String ruta, int ancho, int largo) {
-
 		try {
 			Image icono = ImageIO.read(getClass().getResource(ruta));
 			icono = icono.getScaledInstance(ancho, largo, Image.SCALE_SMOOTH);
@@ -110,28 +102,24 @@ public class LoginView extends JFrame{
 		}catch(Exception ex) {
 			System.out.println("No está la imagen del ícono");
 		}
-		
 		return null;
 	}
 	
 	public void paintComponent(Graphics g) {
-		paintComponent(g);
+		super.paintComponents(g); 
 		Graphics2D g2 = (Graphics2D) g;
 		
 		Image fondo = null;
 		try {
 			fondo=ImageIO.read(new File(""));
-			
 			g2.drawImage(fondo, 0, 0,getWidth(),getHeight(),null);
 			
 		}catch (IOException ex) {
 			System.out.println("La imagen no existe");
-		
 		}
 	}
 	
 	FocusAdapter efectoFocus = new FocusAdapter() {
-
         Color bordeActivo = new Color(0, 200, 120);   
         Color bordeInactivo = Color.BLACK; 
 
@@ -150,8 +138,6 @@ public class LoginView extends JFrame{
         }
     };
     
-    
-	
 	private void generarBotones() {
 		JButton btnConfimar = new JButton("Ingresar");
 		btnConfimar.setFont(new Font("Times New Roman", Font.PLAIN, 23));
@@ -162,14 +148,14 @@ public class LoginView extends JFrame{
 		btnConfimar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		add(btnConfimar);
 		
-		btnConfimar.addActionListener( e -> validarForm());
+		btnConfimar.addActionListener( e -> procesarLogin());
 		
 		btnConfimar.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e){
             		btnConfimar.setBackground(new Color(152, 158, 141));
             }
             
-            	public void mouseExited(MouseEvent e){
+            public void mouseExited(MouseEvent e){
             		btnConfimar.setBackground(new Color(48, 60, 26));
             }
         });
@@ -182,7 +168,6 @@ public class LoginView extends JFrame{
 		lblCrearCuenta.setAlignmentX(JLabel.CENTER);
 		add(lblCrearCuenta);
 
-		
 		lblCrearCuenta.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 reenviarRegistro();
@@ -194,14 +179,13 @@ public class LoginView extends JFrame{
     
     		public void mouseExited(MouseEvent e){
     				lblCrearCuenta.setForeground(Color.WHITE);
-    			}
+    		}
         });
 	}
 	
 	private void reenviarRegistro() {
 		new RegistroView();
 		this.dispose();
-		
 	}
 
 	private void generarAvisos() {
@@ -240,7 +224,7 @@ public class LoginView extends JFrame{
 	
 	private void generarCamposDeTexto() {
 		txtUsuario = new JTextField();
-		txtUsuario.putClientProperty("JTextField.placeholderText", "Ingresa tu nombre de usuario");
+		txtUsuario.putClientProperty("JTextField.placeholderText", "Ingresa tu correo");
 		txtUsuario.setBounds(143, 155, 316, 25);
 		add(txtUsuario);
 				
@@ -251,8 +235,6 @@ public class LoginView extends JFrame{
 		
 		eventosTextField();
 	}
-	
-	
 	
 	private void generarImagen() {
 		lblCafeImg = new JLabel("", cargarIcono("../img/cafe.png", 300, 300), JLabel.CENTER);
@@ -268,11 +250,13 @@ public class LoginView extends JFrame{
 		generarImagen();
 	}
 	
-	private void validarForm() {
+
+	private void procesarLogin() {
 		resetearAvisos();
+		lblErrorIngresarDatos.setText(""); 
 		
 		boolean valido = true;
-		
+
 		if(!verificarUsuario()) {
 			valido = false;
 		}
@@ -280,10 +264,37 @@ public class LoginView extends JFrame{
 		if(!verificarPassword()) {
 			valido = false;
 		}
-		
-		if(valido) {
-			//new Dirreccion();
+
+		if (!valido) {
+			return; 
 		}
+		
+		try {
+			if (validateCredentials(txtUsuario.getText().trim(), new String(txtContrasena.getPassword()))) {
+				JOptionPane.showMessageDialog(this, "Se inició la sesión", "Sesión iniciada", JOptionPane.INFORMATION_MESSAGE);
+				new InicioView(); 
+				this.dispose();
+			}
+		} catch (InvalidUserException ex) {
+			lblErrorIngresarDatos.setText("Credenciales Incorrectas");
+			lblErrorIngresarDatos.setFont(new Font("Times New Roman", Font.BOLD, 16));
+			lblErrorIngresarDatos.setForeground(Color.RED);
+		} catch (InvalidPasswordException ex) {
+			lblErrorIngresarDatos.setText("Credenciales Incorrectas");
+			lblErrorIngresarDatos.setFont(new Font("Times New Roman", Font.BOLD, 16));
+			lblErrorIngresarDatos.setForeground(Color.RED);
+		}
+	}
+
+
+	private boolean validateCredentials(String email, String password) throws InvalidUserException, InvalidPasswordException {
+		if (!email.equals(USUARIO_VALIDO)) {
+			throw new InvalidUserException();
+		}
+		if (!password.equals(PASSWORD_VALIDA)) {
+			throw new InvalidPasswordException();
+		}
+		return true; 
 	}
 	
 	private void resetearAvisos() {
@@ -292,7 +303,8 @@ public class LoginView extends JFrame{
 	}
 	
 	private boolean verificarUsuario() {
-		if(txtUsuario.getText().trim().equals("")) {
+        String input = txtUsuario.getText().trim();
+		if(input.equals("")) {
 			lblUsuarioRequerido.setText("Usuario Requerido");
 			lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 			return false;
@@ -312,65 +324,38 @@ public class LoginView extends JFrame{
 	private void eventosTextField() {
 		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
-			public void removeUpdate(DocumentEvent e) {
-				verificacionInstaUsuario();
-			}
-			
+			public void removeUpdate(DocumentEvent e) { verificacionInstaUsuario(); }
 			@Override
-			public void insertUpdate(DocumentEvent e) {
-				verificacionInstaUsuario();
-			}
-			
+			public void insertUpdate(DocumentEvent e) { verificacionInstaUsuario(); }
 			@Override
-			public void changedUpdate(DocumentEvent e) {
-				verificacionInstaUsuario();
-			}
+			public void changedUpdate(DocumentEvent e) { verificacionInstaUsuario(); }
 		});
 
 		txtContrasena.getDocument().addDocumentListener(new DocumentListener() {
-			
 			@Override
-			public void removeUpdate(DocumentEvent e) {
-				lblContraseaRequerida.setText("");
-				if(new String(txtContrasena.getPassword()).trim().equals("")) {
-					lblContraseaRequerida.setText("Contraseña Requerida");
-					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-				}
-			}
-			
+			public void removeUpdate(DocumentEvent e) { verificarInstaPass(); }
 			@Override
-			public void insertUpdate(DocumentEvent e) {
-				lblContraseaRequerida.setText("");
-				if(new String(txtContrasena.getPassword()).trim().equals("")) {
-					lblContraseaRequerida.setText("Contraseña Requerida");
-					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-				}
-			}
-			
+			public void insertUpdate(DocumentEvent e) { verificarInstaPass(); }
 			@Override
-			public void changedUpdate(DocumentEvent e) {
-				lblContraseaRequerida.setText("");
-				if(new String(txtContrasena.getPassword()).trim().equals("")) {
-					lblContraseaRequerida.setText("Contraseña Requerida");
-					lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-				}
-			}
+			public void changedUpdate(DocumentEvent e) { verificarInstaPass(); }
 		});
-
 	}
 	
 	private void verificacionInstaUsuario(){
 		lblUsuarioRequerido.setText("");
+		lblErrorIngresarDatos.setText(""); 
 		if(txtUsuario.getText().trim().equals("")) {
 			lblUsuarioRequerido.setText("Usuario Requerido");
 			lblUsuarioRequerido.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		}
 	}
 	
-
-	
-	
-	
-	
-	
+	private void verificarInstaPass() {
+		lblContraseaRequerida.setText("");
+		lblErrorIngresarDatos.setText(""); 
+		if(new String(txtContrasena.getPassword()).trim().equals("")) {
+			lblContraseaRequerida.setText("Contraseña Requerida");
+			lblContraseaRequerida.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		}
+	}
 }
