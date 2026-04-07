@@ -190,7 +190,7 @@ public class LoginView extends JFrame {
 
 	private void generarAvisos() {
 		lblErrorIngresarDatos = new LblAviso("");
-		lblErrorIngresarDatos.setBounds(143, 357, 316, 57);
+		lblErrorIngresarDatos.setBounds(357, 253, 316, 57);
 		add(lblErrorIngresarDatos);
 		
 		lblContraseaRequerida = new LblAviso("");
