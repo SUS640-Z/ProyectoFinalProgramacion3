@@ -15,6 +15,7 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+
 public class Inicio extends JFrame {
 
 	private static final long serialVersionUID = 1L;

@@ -35,25 +35,28 @@ import javax.swing.JFrame;
 import components.BtnDirecion;
 import components.LblAviso;
 import components.LblSubtitulo;
+import controllers.RegistroController;
 
 public class RegistroView extends JFrame {
 
-    private JPanel contentPane;
-    private JTextField txtName;
-    private JTextField txtLastName;
-    private JTextField txtCorreo;
-    private JPasswordField txtContrasena;
-    private JPasswordField txtConfirmarContrasena;
-    private LblAviso lblAvisoName;
-    private LblAviso lblAvisoLastName;
-    private LblAviso lblAvisoCorreo;
-    private LblAviso lblAvisoContra;
-    private LblAviso lblAvisoConfirmar;
+    JPanel contentPane;
+    JTextField txtName;
+    JTextField txtLastName;
+    JTextField txtCorreo;
+    JPasswordField txtContrasena;
+    JPasswordField txtConfirmarContrasena;
+    LblAviso lblAvisoName;
+    LblAviso lblAvisoLastName;
+    LblAviso lblAvisoCorreo;
+    LblAviso lblAvisoContra;
+    LblAviso lblAvisoConfirmar;
     BtnDirecion btnConfirmar2;
     JPanel panelFormulario;
+    JButton btnRegistrar;
 
     public static void main(String[] args) {
-        new RegistroView();
+    	RegistroView vista = new RegistroView();
+    	new RegistroController(vista);
     }
 
     public RegistroView() {
@@ -88,7 +91,6 @@ public class RegistroView extends JFrame {
         generarComponentes();
         aplicarEventoFocus();
         resetearAvisos();
-        eventoCerradoVentana();
         setVisible(true);
     }
 
@@ -121,24 +123,7 @@ public class RegistroView extends JFrame {
     		txtConfirmarContrasena.addFocusListener(efectoFocus);
     }
     
-	private void eventoCerradoVentana() {
-    		addWindowListener(new WindowAdapter() {
-    			public void windowClosing(WindowEvent e) {
-    				int opcion = JOptionPane.showConfirmDialog(
-    		                 null,
-    		                 "¿Seguro que deseas cerrar la aplicación?",
-    		                 "Confirmar salida",
-    		                 JOptionPane.YES_NO_OPTION
-    		         );
-
-    		         if(opcion == JOptionPane.YES_OPTION){
-    		             dispose(); 
-    		         }
-    	        }
-    		});
-    	}
-
-
+	
 	private void generarComponentes() {
         JPanel panelFormulario = new JPanel(new GridBagLayout());
         panelFormulario.setOpaque(false); 
@@ -151,7 +136,6 @@ public class RegistroView extends JFrame {
         generarCampos(panelFormulario);
         generarAvisos(panelFormulario);
         generarBotones(panelFormulario);
-        eventosCampos();
     }
 
     private void generarTitulos(JPanel panel) {
@@ -264,7 +248,7 @@ public class RegistroView extends JFrame {
         c.gridy = 16;
         c.insets = new Insets(20, 5, 10, 5); 
 
-        JButton btnRegistrar = new JButton("Registrarme");
+        btnRegistrar = new JButton("Registrarme");
         btnRegistrar.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         btnRegistrar.setBackground(new Color(48, 60, 26)); 
         btnRegistrar.setForeground(Color.WHITE);
@@ -280,10 +264,7 @@ public class RegistroView extends JFrame {
             		btnRegistrar.setBackground(new Color(48, 60, 26));
             }
         });
-        
-
-        btnRegistrar.addActionListener(e -> validarForm());
-        
+       
         panel.add(btnRegistrar, c);
         
         JLabel lblRegresar = new JLabel("<html><u>Regresar</u></html>");
@@ -321,342 +302,32 @@ public class RegistroView extends JFrame {
         });
 
     }
-
     
-
-    private void validarForm() {
-        resetearAvisos();
-        
-        boolean valido = true;
-        
-        if (!verificarName()) {
-            valido = false; 
-        }
-        
-        if (!verificarLastName()) {
-            valido = false; 
-        }
-        
-        if (!verificarCorreo()) {
-            valido = false;
-        }
-        
-        if (!verificarPassword()) {
-            valido = false;
-        }
-        
-        if (!verificarConfirmarPassword()) {
-            valido = false;
-        }
-        
-        if (valido) {
-            JOptionPane.showMessageDialog(this, "Cuenta registrada");
-        }
-    }
-    
-    private void resetearAvisos() {
+    public void resetearAvisos() {
         lblAvisoName.setText("");
         lblAvisoCorreo.setText("");
         lblAvisoContra.setText("");
         lblAvisoConfirmar.setText("");
     }
-    
-    private boolean verificarName() {
-        if(txtName.getText().trim().equals("")) {
-            lblAvisoName.setText("Nombre requerido");
-            lblAvisoName.setFont(new Font("Arial", Font.ITALIC, 10));
-            return false;
-        }
-        return true;
-    }
-    
-    private boolean verificarLastName() {
-        if(txtLastName.getText().trim().equals("")) {
-            lblAvisoLastName.setText("Apellido requerido");
-            lblAvisoLastName.setFont(new Font("Arial", Font.ITALIC, 10));
-            return false;
-        }
-        return true;
-    }
+ 
+   
+	public JTextField getTxtName() {return txtName;}
+	public JTextField getTxtLastName() {return txtLastName;}
+	public JTextField getTxtCorreo() {return txtCorreo;}
+	public JPasswordField getTxtContrasena() {return txtContrasena;}
+	public JPasswordField getTxtConfirmarContrasena() {return txtConfirmarContrasena;}
+	public BtnDirecion getBtnConfirmar2() {return btnConfirmar2;}
+	public JButton getBtnRegistrar() {return btnRegistrar;}
+	public LblAviso getLblAvisoName() {return lblAvisoName;}
+	public LblAviso getLblAvisoLastName() {return lblAvisoLastName;}
+	public LblAviso getLblAvisoCorreo() {return lblAvisoCorreo;}
+	public LblAviso getLblAvisoContra() {return lblAvisoContra;}
+	public LblAviso getLblAvisoConfirmar() {return lblAvisoConfirmar;}
 
-    private boolean verificarCorreo() {
-        if(txtCorreo.getText().trim().equals("")) {
-            lblAvisoCorreo.setText("Correo requerido");
-            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
-            return false;
-        }
-        return true;
-    }
-    
-    private boolean verificarPassword() {
-        if(new String(txtContrasena.getPassword()).trim().equals("")) {
-            lblAvisoContra.setText("Contrasena requerida");
-            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
-            return false;
-        }
-        return true;
-    }
+	
 
-    private boolean verificarConfirmarPassword() {
-        if(new String(txtConfirmarContrasena.getPassword()).trim().equals("") && new String(txtConfirmarContrasena.getPassword()).equals(new String(txtContrasena.getPassword()))){
-            lblAvisoConfirmar.setText("Confirme su contrasena");
-            lblAvisoConfirmar.setFont(new Font("Arial", Font.ITALIC, 10));
-            return false;
-        }
-        return true;
-    }
-    
-    private void eventosCampos(){
-    		txtName.getDocument().addDocumentListener(new DocumentListener() {
-    			@Override
-    			public void removeUpdate(DocumentEvent e) {
-    				verificarInstaName();
-    			}
-    			
-    			@Override
-    			public void insertUpdate(DocumentEvent e) {
-    				verificarInstaName();
-    			}
-    			
-    			@Override
-    			public void changedUpdate(DocumentEvent e) {
-    				verificarInstaName();
-    			}
-    		});
-    		
-    		txtLastName.getDocument().addDocumentListener(new DocumentListener() {
-    			@Override
-    			public void removeUpdate(DocumentEvent e) {
-    				verificarInstaLastName();
-    			}
-    			
-    			@Override
-    			public void insertUpdate(DocumentEvent e) {
-    				verificarInstaLastName();
-    			}
-    			
-    			@Override
-    			public void changedUpdate(DocumentEvent e) {
-    				verificarInstaLastName();
-    			}
-    		});
 
-    		
-        txtCorreo.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				verificarInstaCorreo();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				verificarInstaCorreo();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				verificarInstaCorreo();
-			}
-		});
-        
-        txtContrasena.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				verificarInstaPassword();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				verificarInstaPassword();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				verificarInstaPassword();
-			}
-		});
-        
-        txtConfirmarContrasena.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				verificarInstaConfiPassword();
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				verificarInstaConfiPassword();
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				verificarInstaConfiPassword();
-			}
-		});
-    }
-    
-    private void verificarInstaName() {
-    		lblAvisoName.setText("");
-        if(txtName.getText().trim().equals("")) {
-            lblAvisoName.setText("Nombres requerido");
-            lblAvisoName.setFont(new Font("Arial", Font.ITALIC, 10));
-        }else {
-        	if(txtName.getText().matches(".*\\d.*")) {
-      			 lblAvisoName.setText("No debe contener numeros");
-      	}
-       		
-        		txtName.addKeyListener(new KeyAdapter() {
-        			public void keyTyped(KeyEvent e) {
-        				if((Character.isDigit(e.getKeyChar()) || !Character.isAlphabetic(e.getKeyChar())) && !(e.getKeyChar() == ' ') ) {
-        					e.consume();
-        				}
-        				
-        				if(txtName.getText().length() > 25) {
-        					lblAvisoName.setText("No puedes tener mas 25 caractereres");
-        					e.consume();
-        				}
-        				
-        				char c = e.getKeyChar();
-        				
-        				if(Character.isLowerCase(c)) {
-        					e.setKeyChar(Character.toUpperCase(c));
-        				}
-        			}
-        		
-        		});
-        		
-        }
 
-    }
-    
-    private void verificarInstaLastName() {
-		lblAvisoLastName.setText("");
-	    if(txtLastName.getText().trim().equals("")) {
-	        lblAvisoLastName.setText("Apellidos requerido");
-	        lblAvisoLastName.setFont(new Font("Arial", Font.ITALIC, 10));
-	    }else {
-    		
-    		if(txtLastName.getText().matches(".*\\d.*")) {
-   			 lblAvisoLastName.setText("No debe contener numeros");
-   		}
-    		
-    		txtLastName.addKeyListener(new KeyAdapter() {
-    			public void keyTyped(KeyEvent e) {
-    				if((Character.isDigit(e.getKeyChar()) || !Character.isAlphabetic(e.getKeyChar())) && !(e.getKeyChar() == ' ') ) {
-    					e.consume();
-    				}
-    				
-    				if(txtLastName.getText().length() > 25) {
-    					lblAvisoLastName.setText("No puedes tener mas 25 caractereres");
-    					e.consume();
-    				}
-    				
-    				char c = e.getKeyChar();
-    				
-    				if(Character.isLowerCase(c)) {
-    					e.setKeyChar(Character.toUpperCase(c));
-    				}
-    			}
-    		});
-    		
-    }
-}
-    
-    private void verificarInstaCorreo() {
-	    	lblAvisoCorreo.setText(" ");
-	    	if(txtCorreo.getText().trim().equals("") ) {
-	            lblAvisoCorreo.setText("Correo requerido");
-	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
-	    	}
-	    	if(!txtCorreo.getText().contains("@")) {
-	            lblAvisoCorreo.setText("Correo Invalido");
-	            lblAvisoCorreo.setFont(new Font("Arial", Font.ITALIC, 10));
-	    	}
-	    	
-	    	txtCorreo.addKeyListener(new KeyAdapter() {
-    			public void keyTyped(KeyEvent e) {
-    				if(e.getKeyChar() == ' ') {
-    					e.consume();
-    				}
-    				
-    				if(txtCorreo.getText().length() > 50) {
-    					lblAvisoCorreo.setText("No puedes tener mas 50 caractereres");
-    					e.consume();
-    				}
-    				
-    				char c = e.getKeyChar();
-    				
-    				if(Character.isLowerCase(c)) {
-    					e.setKeyChar(Character.toUpperCase(c));
-    				}
-    			}
-    		
-    		});
-    }
-    
-    private void verificarInstaPassword() {
-    		boolean mayuscula=false;
-    		boolean numeros=false;
-    		boolean longitud=false;
-	    	lblAvisoContra.setText(" ");
-	    	if(new String(txtContrasena.getPassword()).trim().equals("")) {
-	            lblAvisoContra.setText("Contrasena requerida");
-	            lblAvisoContra.setFont(new Font("Arial", Font.ITALIC, 10));
-	    }else {
-		   for(int i = 0; i < new String(txtContrasena.getPassword()).length(); i++) {
-			   if (Character.isUpperCase(new String(txtContrasena.getPassword()).charAt(i))) {
-		            mayuscula=true; 
-		        }
-			   
-			   if(new String(txtContrasena.getPassword()).matches(".*\\d.*")) {
-				   numeros=true;
-			   }
-			   if(new String(txtContrasena.getPassword()).trim().length() >= 8 ) {
-				   longitud=true;
-      		}
-		   }
-		   
-		   if(!mayuscula) {
-			   lblAvisoContra.setText("Se necesita al menos una mayuscula");
-		   }
-		   
-		   if(!numeros) {
-			   lblAvisoContra.setText("Se necesita al menos un numero");
-		   }
-		   
-		   if(!longitud) {
-			   lblAvisoContra.setText("Debe contener almenos 8 caracteres");
-		   }
-	    }
-	    	
-	    		txtContrasena.addKeyListener(new KeyAdapter() {
-    			public void keyTyped(KeyEvent e) {
-    				if(e.getKeyChar() == ' ') {
-    					e.consume();
-    				}
-    				
-    				if((new String(txtContrasena.getPassword())).length() > 20) {
-    					lblAvisoContra.setText("No puedes tener mas 20 caractereres");
-    					e.consume();
-    				}
-    				
-    				char c = e.getKeyChar();
-    				
-    				if(Character.isLowerCase(c)) {
-    					e.setKeyChar(Character.toUpperCase(c));
-    				}
-    			}
-    		
-    		});
-	    	
-    }
-    
-    private void verificarInstaConfiPassword() {
-    		lblAvisoConfirmar.setText(" ");
-	    	if(new String(txtConfirmarContrasena.getPassword()).trim().equals("") || !(new String(txtConfirmarContrasena.getPassword()).equals(new String(txtContrasena.getPassword())))){
-	            lblAvisoConfirmar.setText("Las contraseñas no son iguales");
-	            lblAvisoConfirmar.setFont(new Font("Arial", Font.ITALIC, 10));  
-	     }
-    }
     
 
 }
