@@ -53,7 +53,7 @@ public class LoginView extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image icono = tk.getImage("src/img/SATURN_BUCKS_3.png");
+		Image icono = tk.getImage("src/assets/img/SATURN_BUCKS_3.png");
 		setIconImage(icono);
 		
 		BordePanel login = new BordePanel("LOG IN",Color.white);
@@ -202,7 +202,7 @@ public class LoginView extends JFrame {
 	}
 	
 	private void generarImagen() {
-		lblCafeImg = new JLabel("", cargarIcono("../img/cafe.png", 300, 300), JLabel.CENTER);
+		lblCafeImg = new JLabel("", cargarIcono("src/assets/img/cafe.png", 300, 300), JLabel.CENTER);
 		lblCafeImg.setBounds(145, 290, 350, 350); 
 		add(lblCafeImg);
 	}

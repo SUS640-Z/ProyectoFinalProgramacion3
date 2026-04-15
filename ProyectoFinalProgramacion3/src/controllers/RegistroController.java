@@ -3,6 +3,8 @@ package controllers;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class RegistroController{
 	private void registerListeners() {
 		   view.getBtnRegistrar().addActionListener(e -> validarForm());
 		   eventosCampos();
+		   regresarVentana();
 	}
 	
 	private void eventoCerradoVentana() {
@@ -379,4 +382,23 @@ public class RegistroController{
 		}
 	});
 }
+  
+  public void regresarVentana() {
+	  view.getLblRegresar().addMouseListener(new MouseAdapter() {
+          public void mouseClicked(MouseEvent e) {
+          	int opcion = JOptionPane.showConfirmDialog(
+                      null,
+                      "¿Seguro que deseas regresar?",
+                      "Confirmar salida",
+                      JOptionPane.YES_NO_OPTION
+              );
+
+              if(opcion == JOptionPane.YES_OPTION){ 
+            	  LoginView ventanaLogin = new LoginView();
+                  new controllers.LoginController(ventanaLogin); 
+                  view.dispose(); 
+              }
+          }
+	   });
+  }
 }

@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import views.InvalidPasswordException;
-import views.InvalidUserException;
+import exceptions.InvalidPasswordException;
+import exceptions.InvalidUserException;
 import models.User;
 import views.InicioView;
 import views.LoginView;
@@ -26,7 +26,8 @@ public class LoginController {
 
 		view.getLblRegister().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				new RegistroView();
+				RegistroView vistaRegistro = new RegistroView();
+				new controllers.RegistroController(vistaRegistro); 
 				view.dispose();
 			}
 		});

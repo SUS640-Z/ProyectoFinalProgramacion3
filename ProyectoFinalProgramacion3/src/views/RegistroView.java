@@ -53,6 +53,7 @@ public class RegistroView extends JFrame {
     BtnDirecion btnConfirmar2;
     JPanel panelFormulario;
     JButton btnRegistrar;
+    JLabel lblRegresar;
 
     public static void main(String[] args) {
     	RegistroView vista = new RegistroView();
@@ -68,7 +69,7 @@ public class RegistroView extends JFrame {
         
         try {
             Toolkit tk = Toolkit.getDefaultToolkit();
-            Image icono = tk.getImage("src/img/SATURN_BUCKS_51.png");
+            Image icono = tk.getImage("src/assets/img/SATURN_BUCKS_51.png");
             setIconImage(icono);
         } catch (Exception e) {}
 
@@ -267,7 +268,7 @@ public class RegistroView extends JFrame {
        
         panel.add(btnRegistrar, c);
         
-        JLabel lblRegresar = new JLabel("<html><u>Regresar</u></html>");
+        lblRegresar = new JLabel("<html><u>Regresar</u></html>");
         lblRegresar.setFont(new Font("Times New Roman", Font.PLAIN, 16));
         lblRegresar.setForeground(Color.WHITE);
         lblRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -277,21 +278,7 @@ public class RegistroView extends JFrame {
         c.insets = new Insets(1, 1, 1, 1);
         contentPane.add(lblRegresar, c);
         
-        lblRegresar.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-            	int opcion = JOptionPane.showConfirmDialog(
-                        null,
-                        "¿Seguro que deseas regresar?",
-                        "Confirmar salida",
-                        JOptionPane.YES_NO_OPTION
-                );
-
-                if(opcion == JOptionPane.YES_OPTION){
-                    dispose(); 
-                    LoginView ventana = new LoginView();
-                }
-            }
-            
+        lblRegresar.addMouseListener(new MouseAdapter() {  
             public void mouseEntered(MouseEvent e){
             		lblRegresar.setForeground(new Color(204, 207, 198));
             }
@@ -323,6 +310,9 @@ public class RegistroView extends JFrame {
 	public LblAviso getLblAvisoCorreo() {return lblAvisoCorreo;}
 	public LblAviso getLblAvisoContra() {return lblAvisoContra;}
 	public LblAviso getLblAvisoConfirmar() {return lblAvisoConfirmar;}
+	public JLabel getLblRegresar() {return lblRegresar;}
+	
+	
 
 	
 

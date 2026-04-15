@@ -36,7 +36,7 @@ public class InicioView extends JFrame {
         
         try {
             Toolkit tk = Toolkit.getDefaultToolkit();
-            Image icono = tk.getImage("src/img/SATURN_BUCKS_51.png");
+            Image icono = tk.getImage("src/assets/img/SATURN_BUCKS_51.png");
             setIconImage(icono);
         } catch (Exception e) {}
 

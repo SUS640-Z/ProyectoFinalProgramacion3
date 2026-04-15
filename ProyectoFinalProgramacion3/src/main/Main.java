@@ -1,4 +1,4 @@
-package cafeteria;
+package main;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatLightLaf;
 
