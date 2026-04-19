@@ -202,7 +202,7 @@ public class LoginView extends JFrame {
 	}
 	
 	private void generarImagen() {
-		lblCafeImg = new JLabel("", cargarIcono("src/assets/img/cafe.png", 300, 300), JLabel.CENTER);
+		lblCafeImg = new JLabel("", cargarIcono("../assets/img/cafe.png", 300, 300), JLabel.CENTER);
 		lblCafeImg.setBounds(145, 290, 350, 350); 
 		add(lblCafeImg);
 	}
@@ -244,4 +244,6 @@ public class LoginView extends JFrame {
 		lblContraseaRequerida.setText("");
 		lblErrorIngresarDatos.setText("");
 	}
+	
+	
 }

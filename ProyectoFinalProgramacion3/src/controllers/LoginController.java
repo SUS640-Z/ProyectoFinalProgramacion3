@@ -8,6 +8,7 @@ import javax.swing.event.DocumentListener;
 import exceptions.InvalidPasswordException;
 import exceptions.InvalidUserException;
 import models.User;
+import views.DataView;
 import views.InicioView;
 import views.LoginView;
 import views.RegistroView;
@@ -49,8 +50,9 @@ public class LoginController {
 		try {
 			if (validateCredentials(user)) {
 				JOptionPane.showMessageDialog(view, "Se inicio la sesion", "Sesion iniciada", JOptionPane.INFORMATION_MESSAGE);
-				new InicioView(); 
-				view.dispose();
+				DataView ventanaDatos = new DataView(); 
+                new controllers.DataController(ventanaDatos); 
+                view.dispose(); 
 			}
 		} catch (InvalidUserException | InvalidPasswordException ex) {
 			view.ErrorGeneral("Credenciales Incorrectas");
