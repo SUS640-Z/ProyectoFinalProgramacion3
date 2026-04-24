@@ -55,11 +55,11 @@ public class UserFormDialog extends JDialog{
     	
     	super(parent, true);
     	this.user = user;
-        setTitle("Saturnbucks.registro");
+    	setTitle(user == null ? "Agregar usuario" : "Editar usuario");
+    	setLocationRelativeTo(parent);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setBounds(100, 100, 350, 645);
         setResizable(false);
-        setLocationRelativeTo(null);
         
         try {
             Toolkit tk = Toolkit.getDefaultToolkit();
@@ -86,7 +86,7 @@ public class UserFormDialog extends JDialog{
         generarComponentes();
         aplicarEventoFocus();
         resetearAvisos();
-        setVisible(true);
+        loadData();
     }
 
     
@@ -270,7 +270,7 @@ public class UserFormDialog extends JDialog{
         
         c.gridy = 17;
         c.insets = new Insets(1, 1, 1, 1);
-        contentPane.add(lblRegresar, c);
+        panel.add(lblRegresar, c);
         
         lblRegresar.addMouseListener(new MouseAdapter() {  
             public void mouseEntered(MouseEvent e){
@@ -280,7 +280,13 @@ public class UserFormDialog extends JDialog{
         		public void mouseExited(MouseEvent e){
         			lblRegresar.setForeground(Color.WHITE);
         		}
+        		
+        		public void mouseClicked(MouseEvent e){
+        	        dispose(); 
+        	    }
         });
+        
+        btnRegistrar.addActionListener(e -> save());
 
     }
     
@@ -289,6 +295,42 @@ public class UserFormDialog extends JDialog{
         lblAvisoCorreo.setText("");
         lblAvisoContra.setText("");
         lblAvisoConfirmar.setText("");
+    }
+    
+    private void loadData() {
+    	if(user != null) {
+    		txtName.setText(user.getName());
+            txtLastName.setText(user.getLastName());
+            txtCorreo.setText(user.getEmail());
+            txtContrasena.setText(user.getPassword());
+    	}
+    }
+    
+    private void save() {
+    	String name = txtName.getText();
+    	String lastName = txtLastName.getText();
+    	String correo = txtCorreo.getText();
+    	String password = new String(txtContrasena.getPassword());
+        
+        if(user == null) {
+        	user = new User(name, lastName, correo, password);
+        }else {
+        	user.setName(name);
+        	user.setLastName(lastName);
+        	user.setEmail(correo);
+        	user.setPassword(password);
+        }
+        
+        saved = true;
+        dispose();
+    }
+
+    public boolean isSaved() {
+    	return saved;
+    }
+    
+    public User getUser() {
+    	return user;
     }
  
    

@@ -15,6 +15,7 @@ import views.UserFormDialog;
 
 public class DataController {
 	private DataView view;
+	private UserController userController;
 	
 	public DataController(DataView view) {
 		this.view = view;
@@ -29,9 +30,20 @@ public class DataController {
 			}
 		});
 
-		view.btnUsers.addActionListener(e -> showUsers());
-		view.btnHome.addActionListener(e -> view.showView(DataView.HOME));
+
+		view.btnUsers.addActionListener(e -> {
+			showUsers();
+		});
+		
+		view.btnHome.addActionListener(e -> {
+			view.showView(DataView.HOME);
+			updateMenuState(DataView.HOME);
+		});
+		
+
 		view.btnSalir.addActionListener(e -> handleClose());
+		
+		/*
 		view.usersPanel.getBtnAdd().addActionListener(e -> {
 			UserFormDialog form = new UserFormDialog(null, null);
 			form.setVisible(true);
@@ -44,6 +56,7 @@ public class DataController {
 		
 		view.usersPanel.getBtnDelete().addActionListener(e -> {
 		});
+		*/
 	}
 	
 	private void showUsers() {
@@ -58,6 +71,13 @@ public class DataController {
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(view, "Error al cargar los usuarios: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
+		
+		if(userController == null) {
+			userController = new UserController(view.usersPanel);
+		}
+			
+		userController.loadUsers();
+	
 	}
 	
 	private void handleClose() {
@@ -67,5 +87,10 @@ public class DataController {
 			LoginView ventanaLogin = new LoginView(); 
             new controllers.LoginController(ventanaLogin);
 		}
+	}
+	
+	private void updateMenuState(String viewName) {
+		view.btnUsers.setEnabled(!viewName.equals(DataView.USERS));
+		view.btnHome.setEnabled(!viewName.equals(DataView.HOME));
 	}
 }

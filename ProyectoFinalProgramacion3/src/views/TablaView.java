@@ -26,7 +26,6 @@ public class TablaView  extends JFrame {
 		login.setBackground(new Color(15, 19, 9));
 		add(login);
 		
-		setVisible(true);
 		eventoCerradoVentana();
 
 	}

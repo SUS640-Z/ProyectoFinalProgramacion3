@@ -11,10 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JDialog;
+
 import models.User;
 
-public class UserRepository {
-
+public class UserRepository extends JDialog{
+	
 	private final String FILE = "src/assets/files/users.csv";
 	
 	public void save(User user) throws IOException {
