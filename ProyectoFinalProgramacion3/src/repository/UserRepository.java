@@ -13,42 +13,40 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import models.User;
 
 public class UserRepository extends JDialog{
 	
-	private final String FILE = "src/assets/files/users.csv";
+	private final String FILE = "src/assets/files/users.json";
+	
+	private final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 	
 	public void save(User user) throws IOException {
-		File archivo = new File(FILE);
-		archivo.getParentFile().mkdirs(); 
-		
-		try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(archivo, true), StandardCharsets.UTF_8))) {
-			writer.write(user.toCsv());
-			writer.newLine();
-		}
+		List<User> users = getUsers();
+		users.add(user);
+		updateAll(users);
+
 	}
 	
 	public List<User> getUsers() throws IOException {
-		List<User> users = new ArrayList<User>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(FILE))) {
-			String line;
-			while((line = reader.readLine()) != null) {
-				User user = User.fromCsv(line);
-				users.add(user);
-			}
+		File file = new File(FILE);
+		if(!file.exists() || file.length() == 0) {
+			return new ArrayList<>();
 		}
-		return users;
+		
+		return mapper.readValue(
+				file, 
+				new TypeReference<List<User>>() {}
+			);
 	}
 
 	
 	public void updateAll(List<User> users) throws IOException {
-	    try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE), StandardCharsets.UTF_8))) {
-	        for (User user : users) {
-	            writer.write(user.toCsv());
-	            writer.newLine();
-	        }
-	    }
+		  mapper.writeValue(new File(FILE), users);
 	}
 	
 	public void delete(int index) throws IOException {
